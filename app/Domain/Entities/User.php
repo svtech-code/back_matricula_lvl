@@ -44,11 +44,6 @@ class User
         return $this->rol;
     }
 
-    public function verifyPassword(string $password): bool
-    {
-        return password_verify($password, $this->password);
-    }
-
     public function toArray(): array
     {
         return [
