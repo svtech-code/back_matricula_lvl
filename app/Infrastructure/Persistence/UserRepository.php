@@ -8,9 +8,9 @@ use PDO;
 
 class UserRepository implements UserRepositoryInterface
 {
-    private Database $database;
+    private DatabaseInterface $database;
 
-    public function __construct(Database $database)
+    public function __construct(DatabaseInterface $database)
     {
         $this->database = $database;
     }
