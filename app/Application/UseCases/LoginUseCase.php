@@ -3,35 +3,36 @@
 namespace App\Application\UseCases;
 
 use App\Domain\Repositories\UserRepositoryInterface;
+use App\Domain\Services\PasswordService;
 use App\Infrastructure\Security\JwtService;
+use App\Application\DTOs\LoginResponseDTO;
 
 class LoginUseCase
 {
     private UserRepositoryInterface $userRepository;
     private JwtService $jwtService;
+    private PasswordService $passwordService;
 
-    public function __construct(UserRepositoryInterface $userRepository, JwtService $jwtService)
-    {
+    public function __construct(
+        UserRepositoryInterface $userRepository,
+        JwtService $jwtService,
+        PasswordService $passwordService
+    ) {
         $this->userRepository = $userRepository;
         $this->jwtService = $jwtService;
+        $this->passwordService = $passwordService;
     }
 
-    public function execute(string $email, string $password): array
+    public function execute(string $email, string $password): LoginResponseDTO
     {
         $user = $this->userRepository->findByEmail($email);
 
         if (!$user) {
-            return [
-                'success' => false,
-                'message' => 'Credenciales inválidas'
-            ];
+            return new LoginResponseDTO(false, 'Credenciales inválidas');
         }
 
-        if (!$user->verifyPassword($password)) {
-            return [
-                'success' => false,
-                'message' => 'Credenciales inválidas'
-            ];
+        if (!$this->passwordService->verify($password, $user->getPassword())) {
+            return new LoginResponseDTO(false, 'Credenciales inválidas');
         }
 
         $token = $this->jwtService->generateToken([
@@ -40,13 +41,9 @@ class LoginUseCase
             'rol' => $user->getRol()
         ]);
 
-        return [
-            'success' => true,
-            'message' => 'Login exitoso',
-            'data' => [
-                'token' => $token,
-                'user' => $user->toArray()
-            ]
-        ];
+        return new LoginResponseDTO(true, 'Login exitoso', [
+            'token' => $token,
+            'user' => $user->toArray()
+        ]);
     }
 }
