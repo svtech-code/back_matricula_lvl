@@ -3,23 +3,31 @@
 namespace App\Presentation\Controllers;
 
 use App\Application\UseCases\LoginUseCase;
-use Flight;
+use App\Presentation\Http\RequestInterface;
+use App\Presentation\Http\ResponseInterface;
 
 class AuthController
 {
     private LoginUseCase $loginUseCase;
+    private RequestInterface $request;
+    private ResponseInterface $response;
 
-    public function __construct(LoginUseCase $loginUseCase)
-    {
+    public function __construct(
+        LoginUseCase $loginUseCase,
+        RequestInterface $request,
+        ResponseInterface $response
+    ) {
         $this->loginUseCase = $loginUseCase;
+        $this->request = $request;
+        $this->response = $response;
     }
 
     public function login(): void
     {
-        $data = Flight::request()->data;
+        $data = $this->request->getData();
 
         if (!isset($data->email) || !isset($data->password)) {
-            Flight::json([
+            $this->response->json([
                 'success' => false,
                 'message' => 'Email y password son requeridos'
             ], 400);
@@ -30,7 +38,7 @@ class AuthController
         $password = trim($data->password);
 
         if (empty($email) || empty($password)) {
-            Flight::json([
+            $this->response->json([
                 'success' => false,
                 'message' => 'Email y password no pueden estar vacíos'
             ], 400);
@@ -39,7 +47,7 @@ class AuthController
 
         $result = $this->loginUseCase->execute($email, $password);
 
-        $statusCode = $result['success'] ? 200 : 401;
-        Flight::json($result, $statusCode);
+        $statusCode = $result->toArray()['success'] ? 200 : 401;
+        $this->response->json($result->toArray(), $statusCode);
     }
 }
