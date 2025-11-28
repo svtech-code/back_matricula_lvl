@@ -1,8 +1,14 @@
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]
 
-# Comprimir respuestas JSON
+<IfModule mod_headers.c>
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+</IfModule>
+
 <IfModule mod_deflate.c>
     AddOutputFilterByType DEFLATE application/json
     AddOutputFilterByType DEFLATE text/plain
