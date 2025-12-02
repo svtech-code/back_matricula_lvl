@@ -37,7 +37,7 @@ create table if not exists antecedentes_salud (
 	documentacion_enfermedades boolean default false,
 	medicamentos_indicados varchar(120),
 	medicamentos_contraindicados varchar(120),
-	grupo_sanguineo varchar(10),
+	grupo_sanguineo varchar(80),
 	atendido_psicologo boolean default false,
 	atendido_psiquiatra boolean default false,
 	atendido_psicopedagogo boolean default false,
