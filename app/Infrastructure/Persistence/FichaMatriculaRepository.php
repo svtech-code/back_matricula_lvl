@@ -462,7 +462,8 @@ class FichaMatriculaRepository implements FichaMatriculaRepositoryInterface
     {
         $conn = $this->database->getConnection();
 
-        $query = "SELECT fm.cod_estado_ficha_matricula, fm.fecha_prematricula
+        $query = "SELECT fm.cod_estado_ficha_matricula, fm.fecha_prematricula,
+                  fm.grado_a_matricularse, e.nombres, e.apellido_paterno, e.apellido_materno
                   FROM ficha_matricula fm
                   INNER JOIN estudiante e ON fm.cod_estudiante = e.cod_estudiante
                   WHERE e.run_estudiante = :run_estudiante
