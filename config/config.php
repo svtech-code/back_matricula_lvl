@@ -20,7 +20,10 @@ use App\Application\UseCases\GetMatriculaUseCase;
 use App\Application\UseCases\CreateMatriculaUseCase;
 use App\Application\UseCases\UpdateMatriculaUseCase;
 use App\Application\UseCases\CreateFichaMatriculaUseCase;
+use App\Application\UseCases\UpdateFichaMatriculaUseCase;
 use App\Application\UseCases\VerificarPrematriculaUseCase;
+use App\Application\UseCases\GetFichaMatriculaCompletaUseCase;
+use App\Application\UseCases\GetEstudiantesByPeriodoLectivoUseCase;
 use App\Application\UseCases\GetGeneroUseCase;
 use App\Application\UseCases\GetEscolaridadUseCase;
 use App\Application\UseCases\GetFormacionGeneralOpcionUseCase;
@@ -145,6 +148,14 @@ $container['verificarPrematriculaUseCase'] = function () use ($container) {
     return new VerificarPrematriculaUseCase($container['fichaMatriculaRepository']());
 };
 
+$container['getFichaMatriculaCompletaUseCase'] = function () use ($container) {
+    return new GetFichaMatriculaCompletaUseCase($container['fichaMatriculaRepository']());
+};
+
+$container['getEstudiantesByPeriodoLectivoUseCase'] = function () use ($container) {
+    return new GetEstudiantesByPeriodoLectivoUseCase($container['fichaMatriculaRepository']());
+};
+
 $container['getGeneroUseCase'] = function () use ($container) {
     return new GetGeneroUseCase($container['generoRepository']());
 };
@@ -163,6 +174,10 @@ $container['getTipoFamiliarUseCase'] = function () use ($container) {
 
 $container['getFamiliarByRutUseCase'] = function () use ($container) {
     return new GetFamiliarByRutUseCase($container['familiarRepository']());
+};
+
+$container['updateFichaMatriculaUseCase'] = function () use ($container) {
+    return new UpdateFichaMatriculaUseCase($container['fichaMatriculaRepository']());
 };
 
 $container['authController'] = function () use ($container) {
@@ -187,6 +202,9 @@ $container['fichaMatriculaController'] = function () use ($container) {
     return new FichaMatriculaController(
         $container['createFichaMatriculaUseCase'](),
         $container['verificarPrematriculaUseCase'](),
+        $container['getFichaMatriculaCompletaUseCase'](),
+        $container['getEstudiantesByPeriodoLectivoUseCase'](),
+        $container['updateFichaMatriculaUseCase'](),
         $container['request'](),
         $container['response'](),
         $container['emailService'](),
