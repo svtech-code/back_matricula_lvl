@@ -13,7 +13,7 @@ Flight::route("GET /", function () {
             "message" => "API Matrícula - Backend",
             "version" => "1.0.0",
             "status" => "active",
-            "endpoints" => [
+                "endpoints" => [
                 "GET /" => "Información de la API",
                 "GET /health" => "Health check",
                 "POST /api/auth/login" => "Autenticación de usuarios",
@@ -21,6 +21,9 @@ Flight::route("GET /", function () {
                 "GET /api/familiares/:rut" => "Obtener familiar por RUT",
                 "POST /api/ficha-matricula" => "Crear ficha de matrícula completa",
                 "GET /api/ficha-matricula/verificar" => "Verificar prematrícula por RUT",
+                "GET /api/ficha-matricula/completa" => "Obtener ficha completa (?id=X | ?rut=X&cod_periodo=Y)",
+                "PATCH /api/ficha-matricula" => "Actualizar ficha de matrícula (?id=X)",
+                "GET /api/ficha-matricula/estudiantes" => "Obtener lista de RUN por período lectivo",
                 "GET /api/formacion-general-opciones" => "Obtener opciones de formación general",
                 "GET /api/generos" => "Obtener catálogo de géneros",
                 "GET /api/matriculas" => "Obtener todas las matrículas",
