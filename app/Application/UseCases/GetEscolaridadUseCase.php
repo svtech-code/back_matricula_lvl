@@ -16,12 +16,16 @@ class GetEscolaridadUseCase
 
     public function execute(): EscolaridadResponseDTO
     {
-        $escolaridades = $this->escolaridadRepository->findAll();
+        try {
+            $escolaridades = $this->escolaridadRepository->findAll();
 
-        $data = array_map(function($escolaridad) {
-            return $escolaridad->toArray();
-        }, $escolaridades);
+            $data = array_map(function($escolaridad) {
+                return $escolaridad->toArray();
+            }, $escolaridades);
 
-        return new EscolaridadResponseDTO(true, 'Escolaridades obtenidas exitosamente', ['escolaridades' => $data]);
+            return new EscolaridadResponseDTO(true, 'Escolaridades obtenidas exitosamente', ['escolaridades' => $data]);
+        } catch (\Exception $e) {
+            return new EscolaridadResponseDTO(false, 'Error al obtener escolaridades: ' . $e->getMessage());
+        }
     }
 }

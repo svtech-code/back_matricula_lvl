@@ -8,13 +8,13 @@ class EmailDataMapper
         1 => 'Padre',
         2 => 'Madre',
         3 => 'Tutor legal',
-        4 => 'Abuelo/a',
-        5 => 'Tío/a',
-        6 => 'Apoderado',
-        7 => 'Hermano/a mayor',
-        8 => 'Otros familiares',
-        9 => 'Cuidador legal',
-        10 => 'Padrastro/Madrastra'
+        4 => 'Abuelo',
+        5 => 'Abuela',
+        6 => 'Tío',
+        7 => 'Tía',
+        8 => 'Hermano',
+        9 => 'Hermana',
+        10 => 'Otro'
     ];
 
     public function mapearDatosParaCorreo(array $fichaData): ?array

@@ -13,4 +13,12 @@ interface FichaMatriculaRepositoryInterface
     public function findAll(): array;
 
     public function verificarPrematricula(int $runEstudiante, int $periodoLectivo, int $estadoFichaMatricula): ?array;
+    
+    public function findByIdWithAllDetails(int $codFichaMatricula): ?FichaMatricula;
+    
+    public function findByEstudianteAndPeriodoCodigo(int $runEstudiante, int $codPeriodoLectivo): ?FichaMatricula;
+    
+    public function findEstudiantesByPeriodoLectivo(int $codPeriodoLectivo): array;
+    
+    public function updateFichaMatriculaCompleta(int $codFichaMatricula, array $data): bool;
 }

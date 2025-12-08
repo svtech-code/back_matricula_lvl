@@ -40,9 +40,6 @@ class MatriculaRepository implements MatriculaRepositoryInterface
     {
         $conn = $this->database->getConnection();
         $query  = "SELECT * from estudiante";
-        // $query = "SELECT id, nombres, nombre_social, apellido_paterno, apellido_materno, fecha_nacimiento, grado
-        //           FROM matriculas
-        //           ORDER BY id DESC";
 
         $stmt = $conn->prepare($query);
         $stmt->execute();
