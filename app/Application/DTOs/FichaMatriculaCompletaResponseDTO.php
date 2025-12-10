@@ -193,20 +193,27 @@ class FichaMatriculaCompletaResponseDTO
             'evangelica' => false
         ];
 
-        // Mapeo de las opciones de formación general según tu esquema
+        // Mapeo directo por códigos de la base de datos (más confiable)
         foreach ($formacionGeneral as $opcion) {
-            $nombreAsignatura = strtolower($opcion['nombre_asignatura'] ?? '');
+            $codigo = (int)($opcion['cod_fg_opciones'] ?? 0);
             
-            if (strpos($nombreAsignatura, 'artes visuales') !== false || strpos($nombreAsignatura, 'visuales') !== false) {
-                $electividades['visuales'] = true;
-            } elseif (strpos($nombreAsignatura, 'música') !== false || strpos($nombreAsignatura, 'musica') !== false) {
-                $electividades['musica'] = true;
-            } elseif (strpos($nombreAsignatura, 'ética') !== false || strpos($nombreAsignatura, 'etica') !== false) {
-                $electividades['etica'] = true;
-            } elseif (strpos($nombreAsignatura, 'religión católica') !== false || strpos($nombreAsignatura, 'catolica') !== false) {
-                $electividades['catolica'] = true;
-            } elseif (strpos($nombreAsignatura, 'religión evangélica') !== false || strpos($nombreAsignatura, 'evangelica') !== false) {
-                $electividades['evangelica'] = true;
+            // Mapeo directo por código numérico
+            switch ($codigo) {
+                case 1: // Artes Visuales
+                    $electividades['visuales'] = true;
+                    break;
+                case 2: // Artes Musicales  
+                    $electividades['musica'] = true;
+                    break;
+                case 3: // Ética
+                    $electividades['etica'] = true;
+                    break;
+                case 4: // Religión Católica
+                    $electividades['catolica'] = true;
+                    break;
+                case 5: // Religión Evangélica
+                    $electividades['evangelica'] = true;
+                    break;
             }
         }
 
