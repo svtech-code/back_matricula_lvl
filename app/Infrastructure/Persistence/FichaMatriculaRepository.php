@@ -1725,7 +1725,20 @@ class FichaMatriculaRepository implements FichaMatriculaRepositoryInterface
         ];
 
         foreach ($camposRequeridos as $campo) {
-            if (!isset($familiarData[$campo]) || empty($familiarData[$campo])) {
+            if (!isset($familiarData[$campo])) {
+                return false;
+            }
+            
+            // Para dv_run_familiar, permitir "0" como valor válido
+            if ($campo === 'dv_run_familiar') {
+                if (!is_string($familiarData[$campo]) && !is_numeric($familiarData[$campo])) {
+                    return false;
+                }
+                continue;
+            }
+            
+            // Para otros campos, usar empty() normalmente
+            if (empty($familiarData[$campo])) {
                 return false;
             }
         }
